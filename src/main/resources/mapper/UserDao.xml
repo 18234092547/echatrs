@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ut.user.dao.UserDao">
+
+	<insert id="add" parameterType="User" keyProperty="id">
+		<!-- ignore 主键冲突，报错 -->
+		INSERT ignore INTO user (id, name, password)
+		VALUES (#{id}, #{name},
+		#{password})
+	</insert>
+
+	<!-- 目的：为dao接口方法提供sql语句配置 -->
+	<select id="queryById" resultType="User" parameterType="long">
+		<!-- 具体的sql -->
+		SELECT
+		id,
+		name,
+		password
+		FROM
+		user
+		WHERE
+		id = #{id}
+	</select>
+
+
+	<insert id="insertUser" parameterType="String" >
+		INSERT ignore INTO usernotebook(name, password)
+		VALUES (#{user}, #{password})
+	</insert>
+	
+	<update id="updateUser" >
+		UPDATE usernotebook 
+		SET name = #{user} ,password = #{password}
+		WHERE 
+		id = #{userId}
+	</update>
+	
+	
+
+	<select id="getByNameAndPassword" resultType="User">
+		SELECT
+		*
+		FROM 
+		usernotebook
+		WHERE name = #{user} 
+		  AND password = #{password}
+	</select>
+	
+
+	<select id="getByName" resultType="User">
+
+		SELECT
+		*
+		FROM
+		usernotebook
+		WHERE name = #{user}
+	</select>
+
+
+
+	<select id="queryAll" resultType="User">
+		SELECT
+		id,
+		name,
+		password
+		FROM
+		user
+		ORDER BY
+		id
+		LIMIT #{offset}, #{limit}
+	</select>
+
+</mapper>
