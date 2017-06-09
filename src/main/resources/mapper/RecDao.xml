@@ -5,105 +5,105 @@
 <mapper namespace="com.ut.rec.dao.RecDao">
 
 
-	<select id = "getValidMonth" resultType = "String">
-		
+	<select id="getValidMonth" resultType="String">
+
 		SELECT
-	    DATE_FORMAT(rec_time, '%m') as month 
-	    FROM rec_test 
-	    WHERE 
-	    DATE_FORMAT(rec_time,'%Y')= #{year} 	   
-	    GROUP BY month 
-	    ORDER BY month;
-		
-	</select>	
-	
-	
-	<select id = "getValidMonthStatis" resultType = "Integer">
-		SELECT
-	    COUNT(*) 
-	    FROM rec_test 
-	    WHERE date_format(rec_time,'%Y')=#{year}     
-	    GROUP BY DATE_FORMAT(rec_time,'%M') 
-	    ORDER BY DATE_FORMAT(rec_time,'%M');
+		DATE_FORMAT(rec_time, '%m') as month
+		FROM rec_test
+		WHERE
+		DATE_FORMAT(rec_time,'%Y')= #{year}
+		GROUP BY month
+		ORDER BY month;
+
 	</select>
-	
-	
-	
-	<select id = "getValidSpeMonth" resultType = "String">
-		
+
+
+	<select id="getValidMonthStatis" resultType="Integer">
 		SELECT
-	    DATE_FORMAT(rec_time, '%m') as month 
-	    FROM rec_test 
-	    WHERE 
-	    DATE_FORMAT(rec_time,'%Y')= #{year} 
-	    AND rec_test.spe = 1	   
-	    GROUP BY month 
-	    ORDER BY month;
-		
-	</select>	
-	
-	
-	<select id = "getValidSpeMonthStatis" resultType = "Integer">
-		SELECT
-	    COUNT(*) 
-	    FROM rec_test 
-	    WHERE date_format(rec_time,'%Y')=#{year}    
-	    AND rec_test.spe = 1 
-	    GROUP BY DATE_FORMAT(rec_time,'%M') 
-	    ORDER BY DATE_FORMAT(rec_time,'%M');
+		COUNT(*)
+		FROM rec_test
+		WHERE date_format(rec_time,'%Y')=#{year}
+		GROUP BY DATE_FORMAT(rec_time,'%M')
+		ORDER BY DATE_FORMAT(rec_time,'%M');
 	</select>
-	
-	
-	
-	<select id="getValidDay" resultType = "String">
-		SELECT 
-		DATE_FORMAT(rec_time, '%d') as day 
-		FROM rec_test 
+
+
+
+	<select id="getValidSpeMonth" resultType="String">
+
+		SELECT
+		DATE_FORMAT(rec_time, '%m') as month
+		FROM rec_test
+		WHERE
+		DATE_FORMAT(rec_time,'%Y')= #{year}
+		AND rec_test.spe = 1
+		GROUP BY month
+		ORDER BY month;
+
+	</select>
+
+
+	<select id="getValidSpeMonthStatis" resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM rec_test
+		WHERE date_format(rec_time,'%Y')=#{year}
+		AND rec_test.spe = 1
+		GROUP BY DATE_FORMAT(rec_time,'%M')
+		ORDER BY DATE_FORMAT(rec_time,'%M');
+	</select>
+
+
+
+	<select id="getValidDay" resultType="String">
+		SELECT
+		DATE_FORMAT(rec_time, '%d') as day
+		FROM rec_test
 		WHERE DATE_FORMAT(rec_time,'%Y-%m')=#{yearMonth}
-	    GROUP BY day 
-	    ORDER BY day;
+		GROUP BY day
+		ORDER BY day;
 	</select>
-	
-	
-	<select id="getValidDayStatis" resultType = "Integer">
-		SELECT 
-		COUNT(*) 
-		FROM rec_test 
-		WHERE DATE_FORMAT(rec_time,'%Y-%m')=#{yearMonth}       
-		GROUP BY DATE_FORMAT(rec_time,'%d') 
+
+
+	<select id="getValidDayStatis" resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM rec_test
+		WHERE DATE_FORMAT(rec_time,'%Y-%m')=#{yearMonth}
+		GROUP BY DATE_FORMAT(rec_time,'%d')
 		ORDER BY DATE_FORMAT(rec_time,'%d');
 	</select>
-	
-	<select id="getValidSpeDay" resultType = "String">
-		SELECT 
-		DATE_FORMAT(rec_time, '%d') as day 
-		FROM rec_test 
+
+	<select id="getValidSpeDay" resultType="String">
+		SELECT
+		DATE_FORMAT(rec_time, '%d') as day
+		FROM rec_test
 		WHERE DATE_FORMAT(rec_time,'%Y-%m')=#{yearMonth}
-		AND rec_test.spe = 1	   
-	    GROUP BY day 
-	    ORDER BY day;
+		AND rec_test.spe = 1
+		GROUP BY day
+		ORDER BY day;
 	</select>
-	
-	
-	<select id="getValidSpeDayStatis" resultType = "Integer">
-		SELECT 
-		COUNT(*) 
-		FROM rec_test 
-		WHERE DATE_FORMAT(rec_time,'%Y-%m')=#{yearMonth}       
-	    AND rec_test.spe = 1	   
-		GROUP BY DATE_FORMAT(rec_time,'%d') 
+
+
+	<select id="getValidSpeDayStatis" resultType="Integer">
+		SELECT
+		COUNT(*)
+		FROM rec_test
+		WHERE DATE_FORMAT(rec_time,'%Y-%m')=#{yearMonth}
+		AND rec_test.spe = 1
+		GROUP BY DATE_FORMAT(rec_time,'%d')
 		ORDER BY DATE_FORMAT(rec_time,'%d');
 	</select>
-	
-	
-	<select id="getOneDayDetail" resultType = "Record">
-	SELECT *                             
-	FROM rec_test 
-	WHERE DATE_FORMAT(rec_time,'%Y-%m-%d') = #{yearMonthDay}
-	
-	
+
+
+	<select id="getOneDayDetail" resultType="Record">
+		SELECT *
+		FROM rec_test
+		WHERE DATE_FORMAT(rec_time,'%Y-%m-%d') = #{yearMonthDay}
+
+
 	</select>
-	
-	
-	
+
+
+
 </mapper>

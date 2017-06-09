@@ -5,7 +5,7 @@
 <configuration>
 	<!-- 配置全局属性 -->
 	<settings>
-		<!-- 允许使用自定义的主键值(比如由程序生成的UUID 32位编码作为键值)，数据表的PK生成策略将被覆盖 -->  
+		<!-- 允许使用自定义的主键值(比如由程序生成的UUID 32位编码作为键值)，数据表的PK生成策略将被覆盖 -->
 		<setting name="useGeneratedKeys" value="true" />
 
 		<!-- 使用列别名替换列名 默认:true -->
@@ -13,6 +13,6 @@
 
 		<!-- 开启驼峰命名转换:Table{create_time} -> Entity{createTime} -->
 		<setting name="mapUnderscoreToCamelCase" value="true" />
-		 
+
 	</settings>
 </configuration>

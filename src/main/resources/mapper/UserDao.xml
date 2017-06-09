@@ -25,29 +25,30 @@
 	</select>
 
 
-	<insert id="insertUser" parameterType="String" >
-		INSERT ignore INTO usernotebook(name, password)
+	<insert id="insertUser" parameterType="String">
+		INSERT ignore
+		INTO usernotebook(name, password)
 		VALUES (#{user}, #{password})
 	</insert>
-	
-	<update id="updateUser" >
-		UPDATE usernotebook 
+
+	<update id="updateUser">
+		UPDATE usernotebook
 		SET name = #{user} ,password = #{password}
-		WHERE 
+		WHERE
 		id = #{userId}
 	</update>
-	
-	
+
+
 
 	<select id="getByNameAndPassword" resultType="User">
 		SELECT
 		*
-		FROM 
+		FROM
 		usernotebook
-		WHERE name = #{user} 
-		  AND password = #{password}
+		WHERE name = #{user}
+		AND password = #{password}
 	</select>
-	
+
 
 	<select id="getByName" resultType="User">
 
@@ -55,7 +56,8 @@
 		*
 		FROM
 		usernotebook
-		WHERE name = #{user}
+		WHERE
+		name = #{user}
 	</select>
 
 
