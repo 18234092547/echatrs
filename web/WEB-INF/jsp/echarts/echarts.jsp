@@ -146,7 +146,7 @@ select {
 				    toolbox:{
 				    	feature:{
 				    		magicType:{
-				    			 type: ['line', 'bar', 'stack']
+				    			 type: ['line', 'bar']
 				    		}
 				    	},
 				    	right:20
