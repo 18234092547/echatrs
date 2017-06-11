@@ -1,6 +1,5 @@
 package com.ut.rec.web;
 
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,14 +29,14 @@ public class RecController {
 
 	@RequestMapping(value = "/main.do")
 	public String main(Model model) {
-		
+
 		return "echarts/echarts";
 	}
-	
-	//request 格式 20XX  或者 20XX-XX
+
+	// request 格式 20XX 或者 20XX-XX
 	@RequestMapping(value = "/statis.do")
 	@ResponseBody
-	public String getStatis(Model model,HttpServletRequest request) {
+	public String getStatis(Model model, HttpServletRequest request) {
 		String date = request.getParameter("date");
 		String json = "";
 		try {
@@ -49,20 +48,12 @@ public class RecController {
 		return json;
 	}
 
-	
-	//request 格式 20XX-XX-XX
+	// request 格式 20XX-XX-XX
 	@RequestMapping(value = "/detail.do")
 	public String getDetail(HttpServletRequest request) {
-			List<String> retString = null;
-			
-//			return recService.getEchartStatis("2017-05-06");
-			
-			return "echarts/detail";
-		}
-	
-	
-	
-	
-	
-	
+		List<String> retString = null;
+
+		return "echarts/detail";
+	}
+
 }

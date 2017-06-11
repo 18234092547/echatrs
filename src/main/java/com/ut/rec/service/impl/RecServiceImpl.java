@@ -47,7 +47,7 @@ public class RecServiceImpl implements RecService {
 				normaList = recDao.getStatisInYear(date, new String("1"));
 				specList = recDao.getStatisInYear(date, "rc.spe");
 			}
-			//
+			//查询以日为单位
 			else{
 				normaList = recDao.getStatisInMonth(date, new String("1"));
 				specList = recDao.getStatisInMonth(date, new String("rc.spe"));
