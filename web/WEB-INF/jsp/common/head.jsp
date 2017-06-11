@@ -10,6 +10,7 @@
 var contextPath = "<%=contextPath %>";
 </script>
 <link rel="stylesheet" type="text/css" href="<%=contextPath %>/js/lib/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="<%=contextPath %>/js/lib/bootstrap/css/bootstrap-responsive.min.css"/>
 <script src="<%=contextPath %>/js/lib/jquery-1.10.2.min.js"></script>
 <script src="<%=contextPath %>/js/lib/echarts.common.min.js"></script>
 <script src="<%=contextPath %>/js/lib/bootstrap/js/bootstrap.min.js"></script>   

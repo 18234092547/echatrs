@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ut.rec.entity.Record;
 import com.ut.rec.service.RecService;
 
 @Controller
@@ -49,17 +50,10 @@ public class RecController {
 	}
 	
 	@RequestMapping(value = "/detail.do")
-	public String getDetail(Model model, HttpServletRequest request) {
+	@ResponseBody
+	public List<Record> getDetail(Model model, HttpServletRequest request) {
 		String date = request.getParameter("date");
-		String json = "";
-		try {
-			json = objectMapper.writeValueAsString(recService.getList(date));
-			model.addAttribute("list", json);
-		} catch (JsonProcessingException e) {
-			logger.error("statis.do,obj转json错误");
-			e.printStackTrace();
-		}
-		return "echarts/detail";
+		return recService.getList(date);
 	}
 
 }

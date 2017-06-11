@@ -32,6 +32,56 @@ select {
 			<option value="12">12月</option>
 		</select>
 	</div>
+	<div id="myModal" class="modal fade modal-lg" tabindex="-1" role="dialog" style="width:1100px;margin-left:-550px;">
+	  <div class="modal-dialog"  role="document" >
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <!-- 设置标题，下面thread中设置表头 -->
+	        <h4 class="modal-title">Modal title</h4>
+	      </div>
+	      <div class="modal-body">
+	        <table class="table table-striped">
+				<thead>
+					<tr>
+						<th>
+							name
+						</th>
+						<th>
+							type
+						</th>
+						<th>
+							sign
+						</th>
+						<th>
+							mode
+						</th>
+						<th>
+							c1
+						</th>
+						<th>
+							c2
+						</th>
+						<th>
+							c3
+						</th>
+						<th>
+							recTime
+						</th>
+						<th>
+							spe
+						</th>
+						<th>
+							featureDep
+						</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 	<div id="main" style="width: 80%; height: 600px;margin:0 auto;"></div>
 	<script type="text/javascript">
@@ -71,7 +121,6 @@ select {
 			dataType : "json",
 			async : false,
 			success : function(data) {
-				console.log(data)
 				var xAxisData = [];
 				var data0 = data[0];
 				var xLength = data0.data.length;
@@ -130,14 +179,33 @@ select {
 						monthSelect.val(month);
 						changeSelect();
 					}else{
-						console.log(monthSelect.val());
-						console.log(yearSelect.val());
 						var day = params.name.replace("日","");
 						if(day < 10){
 							day = "0" + day;
 						}
-						console.log(day)
-						window.location.href = contextPath + "/rec/detail.do?date=" + yearSelect.val() + "-" + monthSelect.val() + "-" + day;
+						$.post(contextPath + "/rec/detail.do",{date:yearSelect.val() + "-" + monthSelect.val() + "-" + day},function(list){
+							$(".table tbody").empty();
+							for(var i = 0; i < list.length; i++){
+								var item = list[i];
+								// 设置内容
+								$(
+									"<tr>"+
+										"<td>"+ item.name +"</td>"+
+										"<td>"+ item.type +"</td>"+
+										"<td>"+ item.sign +"</td>"+
+										"<td>"+ item.mode +"</td>"+
+										"<td>"+ item.c1 +"</td>"+
+										"<td>"+ item.c2 +"</td>"+
+										"<td>"+ item.c3 +"</td>"+
+										"<td>"+ new Date(item.recTime).Format("yyyy-MM-dd hh:mm:ss") +"</td>"+
+										"<td>"+ item.spe +"</td>"+
+										"<td>"+ item.featureDep +"</td>"+
+									+"</tr>"
+								).appendTo(".table tbody");
+							}
+							$('#myModal').modal();
+						});
+					
 					}
 				});
 
