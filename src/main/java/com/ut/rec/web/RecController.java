@@ -47,12 +47,18 @@ public class RecController {
 		}
 		return json;
 	}
-
-	// request 格式 20XX-XX-XX
+	
 	@RequestMapping(value = "/detail.do")
-	public String getDetail(HttpServletRequest request) {
-		List<String> retString = null;
-
+	public String getDetail(Model model, HttpServletRequest request) {
+		String date = request.getParameter("date");
+		String json = "";
+		try {
+			json = objectMapper.writeValueAsString(recService.getList(date));
+			model.addAttribute("list", json);
+		} catch (JsonProcessingException e) {
+			logger.error("statis.do,obj转json错误");
+			e.printStackTrace();
+		}
 		return "echarts/detail";
 	}
 

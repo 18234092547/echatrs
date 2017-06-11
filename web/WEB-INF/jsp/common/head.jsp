@@ -13,4 +13,5 @@ var contextPath = "<%=contextPath %>";
 <script src="<%=contextPath %>/js/lib/jquery-1.10.2.min.js"></script>
 <script src="<%=contextPath %>/js/lib/echarts.common.min.js"></script>
 <script src="<%=contextPath %>/js/lib/bootstrap/js/bootstrap.min.js"></script>   
-<script src="<%=contextPath %>/js/lib/My97DatePicker/WdatePicker.js"></script> 
+<script src="<%=contextPath %>/js/lib/My97DatePicker/WdatePicker.js"></script>
+<script src="<%=contextPath %>/js/lib/DateFormate.js"></script>  
