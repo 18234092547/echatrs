@@ -5,6 +5,56 @@
 <mapper namespace="com.ut.rec.dao.RecDao">
 
 
+	
+	<select id="getStatisInMonth" resultType = "Integer">
+		SELECT COUNT(rc.id) 
+		FROM mdate_table AS mt 
+		LEFT JOIN rec_test AS rc 
+		ON DATE_FORMAT(mt.date,'%Y-%m-%d') = DATE_FORMAT(rc.rec_time,'%Y-%m-%d') 
+		AND ${spe} = 1
+		WHERE date_format(mt.date,'%Y-%m')= #{yearMonth}
+		GROUP BY DATE_FORMAT(mt.date,'%Y-%m-%d') ORDER BY mt.date;
+	</select>
+	
+	<select id="getStatisInYear" resultType = "Integer">
+		SELECT COUNT(rc.id) 
+		FROM mdate_table AS mt 
+		LEFT JOIN rec_test AS rc 
+		ON DATE_FORMAT(mt.date,'%Y-%m-%d') = DATE_FORMAT(rc.rec_time,'%Y-%m-%d') 
+		AND ${spe} = 1
+		WHERE date_format(mt.date,'%Y')= #{year}
+		GROUP BY DATE_FORMAT(mt.date,'%Y-%m') ORDER BY mt.date;
+	</select>
+
+
+
+	<select id="getStatisAll" resultType = "Integer">
+		SELECT mt.date,COUNT(rc.id) 
+		FROM mdate_table AS mt 
+		LEFT JOIN rec_test AS rc 
+		ON DATE_FORMAT(mt.date,'%Y-%m-%d') = DATE_FORMAT(rc.rec_time,'%Y-%m-%d') 
+		AND ${spe} = 1
+		GROUP BY DATE_FORMAT(mt.date,'%Y') ORDER BY mt.date; 
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	<select id="getValidMonth" resultType="String">
 
 		SELECT
