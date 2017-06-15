@@ -7,11 +7,11 @@ import com.ut.rec.entity.Record;
 
 
 public interface RecService {
-	List<BarModel> getEchartStatis(String date);
+	List<BarModel> getEchartStatis(String date, Integer[] countAll);
 	
 
 	
-	List<Record> getList(String yearMonthDay);
+	List<Record> getList(String yearMonthDay, String currentPage);
 	
 	
 }

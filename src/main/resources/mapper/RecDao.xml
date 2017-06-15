@@ -7,23 +7,32 @@
 
 	
 	<select id="getStatisInMonth" resultType = "Integer">
-		SELECT COUNT(rc.id) 
-		FROM mdate_table AS mt 
-		LEFT JOIN rec_test AS rc 
-		ON DATE_FORMAT(mt.date,'%Y-%m-%d') = DATE_FORMAT(rc.rec_time,'%Y-%m-%d') 
+		SELECT IFNULL(a1, 0)
+		FROM mdate_table AS mt
+		LEFT JOIN(
+		SELECT COUNT(rec_test.id) AS a1, rec_time, spe FROM rec_test
+		GROUP BY DATE_FORMAT(rec_test.rec_time, '%Y-%m')
+		)AS nrc
+		ON DATE_FORMAT(mt.date, '%Y-%m-%d') = DATE_FORMAT(nrc.rec_time, '%Y-%m-%d')
 		AND ${spe} = 1
-		WHERE date_format(mt.date,'%Y-%m')= #{yearMonth}
-		GROUP BY DATE_FORMAT(mt.date,'%Y-%m-%d') ORDER BY mt.date;
+		WHERE DATE_FORMAT(mt.date, '%Y-%m') = #{yearMonth}
+		GROUP BY DATE_FORMAT(mt.date, '%Y-%m-%d')
+		ORDER BY mt.date;
+
 	</select>
 	
 	<select id="getStatisInYear" resultType = "Integer">
-		SELECT COUNT(rc.id) 
-		FROM mdate_table AS mt 
-		LEFT JOIN rec_test AS rc 
-		ON DATE_FORMAT(mt.date,'%Y-%m-%d') = DATE_FORMAT(rc.rec_time,'%Y-%m-%d') 
+		SELECT IFNULL(a1, 0)
+		FROM mdate_table AS mt
+		LEFT JOIN(
+		SELECT COUNT(rec_test.id) AS a1, rec_time, spe FROM rec_test
+		GROUP BY DATE_FORMAT(rec_test.rec_time, '%Y-%m')
+		)AS nrc
+		ON DATE_FORMAT(mt.date, '%Y-%m-%d') = DATE_FORMAT(nrc.rec_time, '%Y-%m-%d')
 		AND ${spe} = 1
-		WHERE date_format(mt.date,'%Y')= #{year}
-		GROUP BY DATE_FORMAT(mt.date,'%Y-%m') ORDER BY mt.date;
+		WHERE DATE_FORMAT(mt.date, '%Y') = #{year}
+		GROUP BY DATE_FORMAT(mt.date, '%Y-%m')
+		ORDER BY mt.date;
 	</select>
 
 
@@ -38,10 +47,17 @@
 	</select>
 
 
-	<select id="getOneDayDetail" resultType="Record">
-		SELECT *
-		FROM rec_test
-		WHERE DATE_FORMAT(rec_time,'%Y-%m-%d') = #{yearMonthDay}
+	<select id="getOneDayDetailByPage" resultType="Record">
+
+   		 SELECT * 
+   		 FROM rec_test 
+   		 WHERE  id >=  (
+   		 SELECT id 
+   		 FROM rec_test  
+   		 WHERE DATE_FORMAT(rec_time, '%Y-%m-%d') = #{yearMonthDay} 
+   		 ORDER BY id LIMIT #{passNRecord}, 1) 
+   		 LIMIT 10  ;
+ 
 
 
 	</select>

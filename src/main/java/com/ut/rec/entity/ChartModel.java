@@ -7,8 +7,16 @@ public class ChartModel {
 	List<BarModel> list;
 	
 	String chartDataSum;
+	String chartDataSpeSum;
 	
-	
+
+	public String getChartDataSpeSum() {
+		return chartDataSpeSum;
+	}
+
+	public void setChartDataSpeSum(String chartDataSpeSum) {
+		this.chartDataSpeSum = chartDataSpeSum;
+	}
 
 	public ChartModel(List<BarModel> list, String chartDataSum) {
 		super();

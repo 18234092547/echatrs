@@ -25,7 +25,7 @@ public class RecServiceImpl implements RecService {
 
 	@Override
 	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
-	public List<BarModel> getEchartStatis(String date) {
+	public List<BarModel> getEchartStatis(String date, Integer[] countAll) {
 		// TODO Auto-generated method stub
 		List<BarModel> list = new ArrayList<>();
 	
@@ -45,17 +45,28 @@ public class RecServiceImpl implements RecService {
 			}//查询以月为单位
 			else if(date.indexOf("-") == -1){	
 				normaList = recDao.getStatisInYear(date, new String("1"));
-				specList = recDao.getStatisInYear(date, "rc.spe");
+				specList = recDao.getStatisInYear(date, "spe");
 			}
 			//查询以日为单位
 			else{
 				normaList = recDao.getStatisInMonth(date, new String("1"));
-				specList = recDao.getStatisInMonth(date, new String("rc.spe"));
+				specList = recDao.getStatisInMonth(date, new String("spe"));
 			}		
 			
 			bar1.setData(normaList);
 			
 			bar2.setData(specList);
+			
+			countAll[0] = 0; countAll[1] = 0;
+			
+			for(int i = 0; i < normaList.size(); i++){
+				countAll[0] += normaList.get(i);
+				countAll[1] += specList.get(i);
+				
+			}
+			
+			
+			
 			
 			list.add(bar1);
 			
@@ -72,11 +83,15 @@ public class RecServiceImpl implements RecService {
 
 	@Override
 	@Transactional(propagation=Propagation.NOT_SUPPORTED,readOnly=true)
-	public List<Record> getList(String yearMonthDay) {
+	public List<Record> getList(String yearMonthDay, String currentPage) {
 		List<Record> retList = null;
 		
+		int intCurrentPage = Integer.valueOf(currentPage);
+		int passNRecord = (intCurrentPage - 1)*10;
+		
+		
 		try{
-			retList = recDao.getOneDayDetail(yearMonthDay);
+			retList = recDao.getOneDayDetailByPage(yearMonthDay, passNRecord);
 			return retList;
 		}catch(Exception e){
 			e.printStackTrace();

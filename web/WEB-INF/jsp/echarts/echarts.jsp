@@ -288,6 +288,7 @@ select {
 					$('#loading').hide();
 					myChart.hideLoading();
 					var chartDataSum = data.chartDataSum;
+					var chartDataSpeSum = data.chartDataSpeSum;
 					var series = [];
 					var xAxisData = [];
 					var data0 = data.list[0];
@@ -316,9 +317,11 @@ select {
 					var option = {
 						// 在这里设置统计图的标题，修改text的值即可
 						title : {
-							text : '总数：' + chartDataSum,
+							text : '总数:' + chartDataSum + '  spe总数:' + chartDataSpeSum,
 							x : "left",
 							left : 20
+										
+							
 						},
 						legend : {
 							data : [ data0.name, data1.name ],

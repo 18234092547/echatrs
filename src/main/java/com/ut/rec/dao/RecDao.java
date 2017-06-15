@@ -13,7 +13,7 @@ import com.ut.rec.entity.Record;
 public interface RecDao{
 	
 	
-	List<Record> getOneDayDetail(@Param("yearMonthDay")String yearMonthDay);
+	List<Record> getOneDayDetailByPage(@Param("yearMonthDay")String yearMonthDay, @Param("passNRecord")Integer passNRecord);
 	
 	
 	List<Integer> getStatisInMonth(@Param("yearMonth")String yearMonth, @Param("spe")String spe);

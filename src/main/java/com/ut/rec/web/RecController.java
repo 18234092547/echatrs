@@ -1,5 +1,6 @@
 package com.ut.rec.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,9 +44,11 @@ public class RecController {
 	@ResponseBody
 	public String getStatis(Model model, HttpServletRequest request) {
 		String date = request.getParameter("date");
-		List<BarModel> barModelList = recService.getEchartStatis(date);
+		Integer[] countAll = { 0, 0 };
+		List<BarModel> barModelList = recService.getEchartStatis(date, countAll);
 		// 第二个参数设置当前统计图总数
-		ChartModel chartModel = new ChartModel(barModelList,"20");
+		ChartModel chartModel = new ChartModel(barModelList, new String(countAll[0].toString()));
+		chartModel.setChartDataSpeSum( new String(countAll[1].toString() ));
 		String json = "";
 		try {
 			json = objectMapper.writeValueAsString(chartModel);
@@ -63,7 +66,7 @@ public class RecController {
 		// 当前页码
 		String currentPage = request.getParameter("currentPage");
 		// 此处需要塞入总页数
-		RecordDetailModel recordDetailModel = new RecordDetailModel(recService.getList(date), 10);
+		RecordDetailModel recordDetailModel = new RecordDetailModel(recService.getList(date, currentPage), 10);
 		return recordDetailModel;
 	}
 
