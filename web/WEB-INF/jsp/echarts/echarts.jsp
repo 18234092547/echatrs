@@ -10,9 +10,110 @@
 select {
 	margin: 0;
 }
+#loading{
+	background-color: #374140;
+	opacity:0.8;
+	height: 100%;
+	width: 100%;
+	position: fixed;
+	z-index: 9999;
+	margin-top: 0px;
+	top: 0px;
+}
+#loading-center{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+#loading-center-absolute {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 150px;
+	width: 150px;
+	margin-top: -75px;
+	margin-left: -75px;
+}
+#loading-center-absolute-text{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	height: 150px;
+	width: 300px;
+	margin-top: -150px;
+	margin-left: -150px;
+	color:#ffffff;
+}
+.object{
+	width: 20px;
+	height: 20px;
+	background-color: #FFF;
+	float: left;
+	margin-right: 20px;
+	margin-top: 65px;
+	-moz-border-radius: 50% 50% 50% 50%;
+	-webkit-border-radius: 50% 50% 50% 50%;
+	border-radius: 50% 50% 50% 50%;
+}
+#object_one {	
+	-webkit-animation: object_one 1.5s infinite;
+	animation: object_one 1.5s infinite;
+	}
+#object_two {
+	-webkit-animation: object_two 1.5s infinite;
+	animation: object_two 1.5s infinite;
+	-webkit-animation-delay: 0.25s; 
+    animation-delay: 0.25s;
+	}
+#object_three {
+    -webkit-animation: object_three 1.5s infinite;
+	animation: object_three 1.5s infinite;
+	-webkit-animation-delay: 0.5s;
+    animation-delay: 0.5s;
+	
+	}
+@-webkit-keyframes object_one {
+75% { -webkit-transform: scale(0); }
+}
+@keyframes object_one {
+  75% { 
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+}
+@-webkit-keyframes object_two {
+  75% { -webkit-transform: scale(0); }
+}
+@keyframes object_two {
+  75% { 
+    transform: scale(0);
+    -webkit-transform:  scale(0);
+  }
+}
+@-webkit-keyframes object_three {
+  75% { -webkit-transform: scale(0); }
+}
+@keyframes object_three {
+  75% { 
+    transform: scale(0);
+    -webkit-transform: scale(0);
+  }
+}
 </style>
 </head>
 <body>
+	<div id="loading">
+		<div id="loading-center">
+			<div id="loading-center-absolute-text">
+				<h2>数据加载中，请稍候</h2>
+			</div>
+			<div id="loading-center-absolute">
+				<div class="object" id="object_one"></div>
+				<div class="object" id="object_two"></div>
+				<div class="object" id="object_three"></div>
+			</div>
+		</div>
+	</div>
 	<div style="width: 445px; margin: 40px auto;">
 		<h1 style="text-align:center;">此处设置标题</h1>
 		<select name="year" onchange="changeSelect()">
@@ -63,18 +164,40 @@ select {
 						</thead>
 						<tbody></tbody>
 					</table>
+					<div id="paper-container" class="pagination pagination-centered">
+						<ul >
+							
+						</ul>
+					</div>
 				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>
-		<!-- /.modal-dialog -->
 	</div>
 	<!-- /.modal -->
 	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
 	<div id="main" style="width: 80%; height: 600px; margin: 0 auto;"></div>
 	<script type="text/javascript">
 		var myChart = echarts.init(document.getElementById('main'));
+		var paperContainer = $("#paper-container");
+		var queryDate = "";
+		var currentPage = 1;
+		var options = {
+			    alignment:"center",//居中显示
+			    currentPage: currentPage,//当前页数
+			    totalPages: 1,//总页数 注意不是总条数
+			    onPageClicked:function(e,originalEvent,type,page){
+			    	if (page == currentPage) {
+		                return "javascript:void(0)";
+		            } else {
+		            	currentPage = page;
+		            	getTableItem();
+		            }
+                }
+			}
+		paperContainer.bootstrapPaginator(options);
 		myChart.on('click', function(params) {
+			currentPage = 1;
 			if (!monthSelect.val()) {
 				var month = params.name.replace("月", "");
 				if (month < 10) {
@@ -87,48 +210,43 @@ select {
 				if (day < 10) {
 					day = "0" + day;
 				}
-				$.post(contextPath + "/rec/detail.do", {
-					date : yearSelect.val() + "-" + monthSelect.val() + "-"
-							+ day
-				}, function(list) {
-					$(".table tbody").empty();
-					for (var i = 0; i < list.length; i++) {
-						var item = list[i];
-						// 设置内容
-						$(
-								"<tr>" + "<td>"
-										+ item.name
-										+ "</td>"
-										+ "<td>"
-										+ item.type
-										+ "</td>"
-										+ "<td>"
-										+ item.sign
-										+ "</td>"
-										+ "<td>"
-										+ item.mode
-										+ "</td>"
-										+ "<td>"
-										+ item.c1
-										+ "</td>"
-										+ "<td>"
-										+ item.c2
-										+ "</td>"
-										+ "<td>"
-										+ item.c3
-										+ "</td>"
-										+ "<td>"
-										+ new Date(item.recTime)
-												.Format("yyyy-MM-dd hh:mm:ss")
-										+ "</td>" + "<td>" + item.spe + "</td>"
-										+ "<td>" + item.featureDep + "</td>"
-										+ +"</tr>").appendTo(".table tbody");
-					}
-					$('#myModal').modal();
-				});
-
+				queryDate = yearSelect.val() + "-" + monthSelect.val() + "-" + day;
+				getTableItem();
 			}
 		});
+		
+		function getTableItem(){
+			$('#loading').show();
+			$.post(contextPath + "/rec/detail.do", {
+				currentPage:currentPage,
+				date : queryDate
+			}, function(data) {
+				var list = data.list;
+				var totalPages = data.totalPages;
+				paperContainer.bootstrapPaginator({
+					totalPages:totalPages
+				});
+				$(".table tbody").empty();
+				for (var i = 0; i < list.length; i++) {
+					var item = list[i];
+					// 设置内容
+					$("<tr>"
+						+ "<td>"+ item.name+ "</td>"
+						+ "<td>"+ item.type+ "</td>"
+						+ "<td>"+ item.sign+ "</td>"
+						+ "<td>"+ item.mode+ "</td>"
+						+ "<td>"+ item.c1+ "</td>"
+						+ "<td>"+ item.c2+ "</td>"
+						+ "<td>"+ item.c3+ "</td>"
+						+ "<td>"+ new Date(item.recTime).Format("yyyy-MM-dd hh:mm:ss")+ "</td>" 
+						+ "<td>" + item.spe + "</td>"
+						+ "<td>" + item.featureDep + "</td>"
+					+"</tr>").appendTo(".table tbody");
+				}
+				$('#myModal').modal();
+				$('#loading').hide();
+			});
+		}
 		var yearSelect = $("select[name='year']");
 		var monthSelect = $("select[name='month']");
 		initYearSelect();
@@ -149,7 +267,7 @@ select {
 			yearSelect.val(nowYear);
 		}
 		function changeSelect() {
-			myChart.showLoading();
+			$('#loading').show();
 			var year = yearSelect.val();
 			var month = monthSelect.val();
 			var date;
@@ -165,8 +283,9 @@ select {
 					date : date
 				},
 				dataType : "json",
-				async : false,
+				async : true,
 				success : function(data) {
+					$('#loading').hide();
 					myChart.hideLoading();
 					var chartDataSum = data.chartDataSum;
 					var series = [];

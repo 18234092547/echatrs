@@ -1,6 +1,7 @@
 package com.ut.rec.web;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ut.rec.entity.BarModel;
 import com.ut.rec.entity.ChartModel;
 import com.ut.rec.entity.Record;
+import com.ut.rec.entity.RecordDetailModel;
 import com.ut.rec.service.RecService;
 
 @Controller
@@ -56,9 +58,13 @@ public class RecController {
 	
 	@RequestMapping(value = "/detail.do")
 	@ResponseBody
-	public List<Record> getDetail(Model model, HttpServletRequest request) {
+	public RecordDetailModel getDetail(Model model, HttpServletRequest request) {
 		String date = request.getParameter("date");
-		return recService.getList(date);
+		// 当前页码
+		String currentPage = request.getParameter("currentPage");
+		// 此处需要塞入总页数
+		RecordDetailModel recordDetailModel = new RecordDetailModel(recService.getList(date), 10);
+		return recordDetailModel;
 	}
 
 }
