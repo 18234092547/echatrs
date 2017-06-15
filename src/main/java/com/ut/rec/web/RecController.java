@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ut.rec.entity.BarModel;
+import com.ut.rec.entity.ChartModel;
 import com.ut.rec.entity.Record;
 import com.ut.rec.service.RecService;
 
@@ -39,9 +41,12 @@ public class RecController {
 	@ResponseBody
 	public String getStatis(Model model, HttpServletRequest request) {
 		String date = request.getParameter("date");
+		List<BarModel> barModelList = recService.getEchartStatis(date);
+		// 第二个参数设置当前统计图总数
+		ChartModel chartModel = new ChartModel(barModelList,"20");
 		String json = "";
 		try {
-			json = objectMapper.writeValueAsString(recService.getEchartStatis(date));
+			json = objectMapper.writeValueAsString(chartModel);
 		} catch (JsonProcessingException e) {
 			logger.error("statis.do,obj转json错误");
 			e.printStackTrace();

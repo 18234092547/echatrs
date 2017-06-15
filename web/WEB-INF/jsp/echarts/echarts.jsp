@@ -14,6 +14,7 @@ select {
 </head>
 <body>
 	<div style="width: 445px; margin: 40px auto;">
+		<h1 style="text-align:center;">此处设置标题</h1>
 		<select name="year" onchange="changeSelect()">
 		</select> 
 		<select name="month" onchange="changeSelect()">
@@ -32,186 +33,208 @@ select {
 			<option value="12">12月</option>
 		</select>
 	</div>
-	<div id="myModal" class="modal fade modal-lg" tabindex="-1" role="dialog" style="width:1100px;margin-left:-550px;">
-	  <div class="modal-dialog"  role="document" >
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <!-- 设置标题，下面thread中设置表头 -->
-	        <h4 class="modal-title">Modal title</h4>
-	      </div>
-	      <div class="modal-body">
-	        <table class="table table-striped">
-				<thead>
-					<tr>
-						<th>
-							name
-						</th>
-						<th>
-							type
-						</th>
-						<th>
-							sign
-						</th>
-						<th>
-							mode
-						</th>
-						<th>
-							c1
-						</th>
-						<th>
-							c2
-						</th>
-						<th>
-							c3
-						</th>
-						<th>
-							recTime
-						</th>
-						<th>
-							spe
-						</th>
-						<th>
-							featureDep
-						</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-	      </div>
-	    </div><!-- /.modal-content -->
-	  </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
+	<div id="myModal" class="modal fade modal-lg" tabindex="-1"
+		role="dialog" style="width: 1100px; margin-left: -550px;">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<!-- 设置标题，下面中设置表头 -->
+					<h4 class="modal-title">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>name</th>
+								<th>type</th>
+								<th>sign</th>
+								<th>mode</th>
+								<th>c1</th>
+								<th>c2</th>
+								<th>c3</th>
+								<th>recTime</th>
+								<th>spe</th>
+								<th>featureDep</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-	<div id="main" style="width: 80%; height: 600px;margin:0 auto;"></div>
+	<div id="main" style="width: 80%; height: 600px; margin: 0 auto;"></div>
 	<script type="text/javascript">
-	var myChart = echarts.init(document.getElementById('main'));
-	var yearSelect = $("select[name='year']");
-	var monthSelect = $("select[name='month']");
-	initYearSelect();
-	changeSelect();
-	function initYearSelect(){
-		var nowDate = new Date();
-		var nowYear = nowDate.getFullYear();
-		for(var i = 5; i >= 0; i--){
-			var y = nowYear + i;
-			yearSelect.append("<option value=" + y + ">" + y + "年</option>");
-		}
-		for(var i = 1; i < 6; i++){
-			var y = nowYear - i;
-			yearSelect.append("<option value=" + y + ">" + y + "年</option>");
-		}
-		yearSelect.val(nowYear);
-	}
-	function changeSelect() {
-		var year = yearSelect.val();
-		var month = monthSelect.val();
-		var date;
-		if (month) {
-			date = year + "-" + month;
-		} else {
-			date = year;
-		}
-		$.ajax({
-			type : "POST",
-			url : contextPath + "/rec/statis.do",
-			data : {
-				date : date
-			},
-			dataType : "json",
-			async : false,
-			success : function(data) {
-				var xAxisData = [];
-				var data0 = data[0];
-				var xLength = data0.data.length;
-				for (var i = 0; i < xLength; i++) {
-					if (xLength < 28) {
-						xAxisData.push(parseInt(i + 1) + "月");
-					} else if (xLength >= 28) {
-						xAxisData.push(parseInt(i + 1) + "日");
-					}
+		var myChart = echarts.init(document.getElementById('main'));
+		myChart.on('click', function(params) {
+			if (!monthSelect.val()) {
+				var month = params.name.replace("月", "");
+				if (month < 10) {
+					month = "0" + month;
 				}
-				
-				var option = {
-					// 在这里设置统计图的标题，修改text的值即可
-					title : {
-						text : '设置标题',
-						x:"left",
-						left:20
-					},
-					legend: {
-				        data:[data[0].name,data[1].name],
-				        x:"center"
-				    },
-				    toolbox:{
-				    	feature:{
-				    		magicType:{
-				    			 type: ['line', 'bar']
-				    		}
-				    	},
-				    	right:20
-				    },
-					xAxis : {
-						type : 'category',
-						interval : 1,
-						data : xAxisData,
-						boundaryGap : true,
-						axisTick : {
-							alignWithLabel : true,
-							interval : 0
-						},
-						axisLabel : {
-							interval : 0
-						}
-					},
-					yAxis : [ {
-						type : 'value'
-					} ],
-					series : data
-				};
-				myChart.setOption(option);
-				myChart.on('click', function(params) {
-					if(!monthSelect.val()){
-						var month = params.name.replace("月","");
-						if(month < 10){
-							month = "0" + month;
-						}
-						monthSelect.val(month);
-						changeSelect();
-					}else{
-						var day = params.name.replace("日","");
-						if(day < 10){
-							day = "0" + day;
-						}
-						$.post(contextPath + "/rec/detail.do",{date:yearSelect.val() + "-" + monthSelect.val() + "-" + day},function(list){
-							$(".table tbody").empty();
-							for(var i = 0; i < list.length; i++){
-								var item = list[i];
-								// 设置内容
-								$(
-									"<tr>"+
-										"<td>"+ item.name +"</td>"+
-										"<td>"+ item.type +"</td>"+
-										"<td>"+ item.sign +"</td>"+
-										"<td>"+ item.mode +"</td>"+
-										"<td>"+ item.c1 +"</td>"+
-										"<td>"+ item.c2 +"</td>"+
-										"<td>"+ item.c3 +"</td>"+
-										"<td>"+ new Date(item.recTime).Format("yyyy-MM-dd hh:mm:ss") +"</td>"+
-										"<td>"+ item.spe +"</td>"+
-										"<td>"+ item.featureDep +"</td>"+
-									+"</tr>"
-								).appendTo(".table tbody");
-							}
-							$('#myModal').modal();
-						});
-					
+				monthSelect.val(month);
+				changeSelect();
+			} else {
+				var day = params.name.replace("日", "");
+				if (day < 10) {
+					day = "0" + day;
+				}
+				$.post(contextPath + "/rec/detail.do", {
+					date : yearSelect.val() + "-" + monthSelect.val() + "-"
+							+ day
+				}, function(list) {
+					$(".table tbody").empty();
+					for (var i = 0; i < list.length; i++) {
+						var item = list[i];
+						// 设置内容
+						$(
+								"<tr>" + "<td>"
+										+ item.name
+										+ "</td>"
+										+ "<td>"
+										+ item.type
+										+ "</td>"
+										+ "<td>"
+										+ item.sign
+										+ "</td>"
+										+ "<td>"
+										+ item.mode
+										+ "</td>"
+										+ "<td>"
+										+ item.c1
+										+ "</td>"
+										+ "<td>"
+										+ item.c2
+										+ "</td>"
+										+ "<td>"
+										+ item.c3
+										+ "</td>"
+										+ "<td>"
+										+ new Date(item.recTime)
+												.Format("yyyy-MM-dd hh:mm:ss")
+										+ "</td>" + "<td>" + item.spe + "</td>"
+										+ "<td>" + item.featureDep + "</td>"
+										+ +"</tr>").appendTo(".table tbody");
 					}
+					$('#myModal').modal();
 				});
 
 			}
 		});
-	}
+		var yearSelect = $("select[name='year']");
+		var monthSelect = $("select[name='month']");
+		initYearSelect();
+		changeSelect();
+		function initYearSelect() {
+			var nowDate = new Date();
+			var nowYear = nowDate.getFullYear();
+			for (var i = 5; i >= 0; i--) {
+				var y = nowYear + i;
+				yearSelect
+						.append("<option value=" + y + ">" + y + "年</option>");
+			}
+			for (var i = 1; i < 6; i++) {
+				var y = nowYear - i;
+				yearSelect
+						.append("<option value=" + y + ">" + y + "年</option>");
+			}
+			yearSelect.val(nowYear);
+		}
+		function changeSelect() {
+			myChart.showLoading();
+			var year = yearSelect.val();
+			var month = monthSelect.val();
+			var date;
+			if (month) {
+				date = year + "-" + month;
+			} else {
+				date = year;
+			}
+			$.ajax({
+				type : "POST",
+				url : contextPath + "/rec/statis.do",
+				data : {
+					date : date
+				},
+				dataType : "json",
+				async : false,
+				success : function(data) {
+					myChart.hideLoading();
+					var chartDataSum = data.chartDataSum;
+					var series = [];
+					var xAxisData = [];
+					var data0 = data.list[0];
+					var data1 = data.list[1];
+					data0.itemStyle = {
+						normal : {
+							color : "#3598DB"
+						}
+					}
+					data1.itemStyle = {
+						normal : {
+							color : "#E84C3D"
+						}
+					}
+					series.push(data0);
+					series.push(data1);
+					var xLength = data0.data.length;
+					for (var i = 0; i < xLength; i++) {
+						if (xLength < 28) {
+							xAxisData.push(parseInt(i + 1) + "月");
+						} else if (xLength >= 28) {
+							xAxisData.push(parseInt(i + 1) + "日");
+						}
+					}
+
+					var option = {
+						// 在这里设置统计图的标题，修改text的值即可
+						title : {
+							text : '总数：' + chartDataSum,
+							x : "left",
+							left : 20
+						},
+						legend : {
+							data : [ data0.name, data1.name ],
+							x : "center"
+						},
+						toolbox : {
+							feature : {
+								magicType : {
+									type : [ 'line', 'bar' ]
+								}
+							},
+							right : 20
+						},
+						xAxis : {
+							type : 'category',
+							interval : 1,
+							data : xAxisData,
+							boundaryGap : true,
+							axisTick : {
+								alignWithLabel : true,
+								interval : 0
+							},
+							axisLabel : {
+								interval : 0
+							}
+						},
+						yAxis : [ {
+							type : 'value'
+						} ],
+						series : series
+					};
+					myChart.setOption(option);
+				}
+			});
+		}
 	</script>
 </body>
 </html>
