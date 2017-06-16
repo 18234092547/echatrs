@@ -8,11 +8,27 @@
 <title>Insert title here</title>
 <style>
 select {
-	margin: 0;
+  width: 220px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  display: inline-block;
+  height: 30px;
+  padding: 4px 6px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #555555;
+  vertical-align: middle;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  margin-top: 4px;
+  line-height: 30px;
 }
-#loading{
+
+#loading {
 	background-color: #374140;
-	opacity:0.8;
+	opacity: 0.8;
 	height: 100%;
 	width: 100%;
 	position: fixed;
@@ -20,11 +36,13 @@ select {
 	margin-top: 0px;
 	top: 0px;
 }
-#loading-center{
+
+#loading-center {
 	width: 100%;
 	height: 100%;
 	position: relative;
 }
+
 #loading-center-absolute {
 	position: absolute;
 	left: 50%;
@@ -34,7 +52,8 @@ select {
 	margin-top: -75px;
 	margin-left: -75px;
 }
-#loading-center-absolute-text{
+
+#loading-center-absolute-text {
 	position: absolute;
 	left: 50%;
 	top: 50%;
@@ -42,9 +61,10 @@ select {
 	width: 300px;
 	margin-top: -150px;
 	margin-left: -150px;
-	color:#ffffff;
+	color: #ffffff;
 }
-.object{
+
+.object {
 	width: 20px;
 	height: 20px;
 	background-color: #FFF;
@@ -55,49 +75,63 @@ select {
 	-webkit-border-radius: 50% 50% 50% 50%;
 	border-radius: 50% 50% 50% 50%;
 }
-#object_one {	
+
+#object_one {
 	-webkit-animation: object_one 1.5s infinite;
 	animation: object_one 1.5s infinite;
-	}
+}
+
 #object_two {
 	-webkit-animation: object_two 1.5s infinite;
 	animation: object_two 1.5s infinite;
-	-webkit-animation-delay: 0.25s; 
-    animation-delay: 0.25s;
-	}
+	-webkit-animation-delay: 0.25s;
+	animation-delay: 0.25s;
+}
+
 #object_three {
-    -webkit-animation: object_three 1.5s infinite;
+	-webkit-animation: object_three 1.5s infinite;
 	animation: object_three 1.5s infinite;
 	-webkit-animation-delay: 0.5s;
-    animation-delay: 0.5s;
-	
-	}
-@-webkit-keyframes object_one {
-75% { -webkit-transform: scale(0); }
+	animation-delay: 0.5s;
 }
-@keyframes object_one {
-  75% { 
-    transform: scale(0);
-    -webkit-transform: scale(0);
-  }
+
+@
+-webkit-keyframes object_one { 75% {
+	-webkit-transform: scale(0);
 }
-@-webkit-keyframes object_two {
-  75% { -webkit-transform: scale(0); }
+
 }
-@keyframes object_two {
-  75% { 
-    transform: scale(0);
-    -webkit-transform:  scale(0);
-  }
+@
+keyframes object_one { 75% {
+	transform: scale(0);
+	-webkit-transform: scale(0);
 }
-@-webkit-keyframes object_three {
-  75% { -webkit-transform: scale(0); }
+
 }
-@keyframes object_three {
-  75% { 
-    transform: scale(0);
-    -webkit-transform: scale(0);
-  }
+@
+-webkit-keyframes object_two { 75% {
+	-webkit-transform: scale(0);
+}
+
+}
+@
+keyframes object_two { 75% {
+	transform: scale(0);
+	-webkit-transform: scale(0);
+}
+
+}
+@
+-webkit-keyframes object_three { 75% {
+	-webkit-transform: scale(0);
+}
+
+}
+@
+keyframes object_three { 75% {
+	transform: scale(0);
+	-webkit-transform: scale(0);
+}
 }
 </style>
 </head>
@@ -114,29 +148,8 @@ select {
 			</div>
 		</div>
 	</div>
-	<div style="width: 445px; margin: 40px auto;">
-		<h1 style="text-align:center;">此处设置标题</h1>
-		<select name="year" onchange="changeSelect()">
-		</select> 
-		<select name="month" onchange="changeSelect()">
-			<option value="" selected>全年</option>
-			<option value="01">1月</option>
-			<option value="02">2月</option>
-			<option value="03">3月</option>
-			<option value="04">4月</option>
-			<option value="05">5月</option>
-			<option value="06">6月</option>
-			<option value="07">7月</option>
-			<option value="08">8月</option>
-			<option value="09">9月</option>
-			<option value="10">10月</option>
-			<option value="11">11月</option>
-			<option value="12">12月</option>
-		</select>
-	</div>
-	<div id="myModal" class="modal fade modal-lg" tabindex="-1"
-		role="dialog" style="width: 1100px; margin-left: -550px;">
-		<div class="modal-dialog" role="document">
+	<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
@@ -164,40 +177,60 @@ select {
 						</thead>
 						<tbody></tbody>
 					</table>
-					<div id="paper-container" class="pagination pagination-centered">
-						<ul >
-							
-						</ul>
-					</div>
+				</div>
+				<div class="modal-footer" style="text-align: center;">
+					<ul id="paper-container"></ul>
 				</div>
 			</div>
-			<!-- /.modal-content -->
 		</div>
 	</div>
-	<!-- /.modal -->
+	<div class="container-fluid text-center" style="margin:10px auto;">
+		<h1>此处设置标题</h1>
+		<select name="year" onchange="changeSelect()">
+		</select> 
+		<select name="month"  onchange="changeSelect()">
+			<option value="" selected>全年</option>
+			<option value="01">1月</option>
+			<option value="02">2月</option>
+			<option value="03">3月</option>
+			<option value="04">4月</option>
+			<option value="05">5月</option>
+			<option value="06">6月</option>
+			<option value="07">7月</option>
+			<option value="08">8月</option>
+			<option value="09">9月</option>
+			<option value="10">10月</option>
+			<option value="11">11月</option>
+			<option value="12">12月</option>
+		</select>
+	</div>
 	<!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-	<div id="main" style="width: 80%; height: 600px; margin: 0 auto;"></div>
+	<div id="main" style="width: 80%; height: 600px; margin:20px auto;"></div>
 	<script type="text/javascript">
 		var myChart = echarts.init(document.getElementById('main'));
 		var paperContainer = $("#paper-container");
 		var queryDate = "";
 		var currentPage = 1;
 		var options = {
-			    alignment:"center",//居中显示
-			    currentPage: currentPage,//当前页数
-			    totalPages: 1,//总页数 注意不是总条数
-			    onPageClicked:function(e,originalEvent,type,page){
-			    	if (page == currentPage) {
-		                return "javascript:void(0)";
-		            } else {
-		            	currentPage = page;
-		            	getTableItem();
-		            }
-                }
+			alignment : "center",//居中显示
+			currentPage : currentPage,//当前页数
+			totalPages : 1,//总页数 注意不是总条数
+			bootstrapMajorVersion : 3,
+			onPageClicked : function(e, originalEvent, type, page) {
+				if (page == currentPage) {
+					return "javascript:void(0)";
+				} else {
+					currentPage = page;
+					getTableItem();
+				}
 			}
+		}
 		paperContainer.bootstrapPaginator(options);
 		myChart.on('click', function(params) {
 			currentPage = 1;
+			paperContainer.bootstrapPaginator({
+				currentPage : currentPage
+			});
 			if (!monthSelect.val()) {
 				var month = params.name.replace("月", "");
 				if (month < 10) {
@@ -210,38 +243,55 @@ select {
 				if (day < 10) {
 					day = "0" + day;
 				}
-				queryDate = yearSelect.val() + "-" + monthSelect.val() + "-" + day;
+				queryDate = yearSelect.val() + "-" + monthSelect.val() + "-"
+						+ day;
 				getTableItem();
 			}
 		});
-		
-		function getTableItem(){
+
+		function getTableItem() {
 			$('#loading').show();
 			$.post(contextPath + "/rec/detail.do", {
-				currentPage:currentPage,
+				currentPage : currentPage,
 				date : queryDate
 			}, function(data) {
 				var list = data.list;
 				var totalPages = data.totalPages;
 				paperContainer.bootstrapPaginator({
-					totalPages:totalPages
+					totalPages : totalPages
 				});
 				$(".table tbody").empty();
 				for (var i = 0; i < list.length; i++) {
 					var item = list[i];
 					// 设置内容
-					$("<tr>"
-						+ "<td>"+ item.name+ "</td>"
-						+ "<td>"+ item.type+ "</td>"
-						+ "<td>"+ item.sign+ "</td>"
-						+ "<td>"+ item.mode+ "</td>"
-						+ "<td>"+ item.c1+ "</td>"
-						+ "<td>"+ item.c2+ "</td>"
-						+ "<td>"+ item.c3+ "</td>"
-						+ "<td>"+ new Date(item.recTime).Format("yyyy-MM-dd hh:mm:ss")+ "</td>" 
-						+ "<td>" + item.spe + "</td>"
-						+ "<td>" + item.featureDep + "</td>"
-					+"</tr>").appendTo(".table tbody");
+					$(
+							"<tr>" + "<td>"
+									+ item.name
+									+ "</td>"
+									+ "<td>"
+									+ item.type
+									+ "</td>"
+									+ "<td>"
+									+ item.sign
+									+ "</td>"
+									+ "<td>"
+									+ item.mode
+									+ "</td>"
+									+ "<td>"
+									+ item.c1
+									+ "</td>"
+									+ "<td>"
+									+ item.c2
+									+ "</td>"
+									+ "<td>"
+									+ item.c3
+									+ "</td>"
+									+ "<td>"
+									+ new Date(item.recTime)
+											.Format("yyyy-MM-dd hh:mm:ss")
+									+ "</td>" + "<td>" + item.spe + "</td>"
+									+ "<td>" + item.featureDep + "</td>"
+									+ "</tr>").appendTo(".table tbody");
 				}
 				$('#myModal').modal();
 				$('#loading').hide();
@@ -317,11 +367,11 @@ select {
 					var option = {
 						// 在这里设置统计图的标题，修改text的值即可
 						title : {
-							text : '总数:' + chartDataSum + '  spe总数:' + chartDataSpeSum,
+							text : '总数:' + chartDataSum + '  spe总数:'
+									+ chartDataSpeSum,
 							x : "left",
 							left : 20
-										
-							
+
 						},
 						legend : {
 							data : [ data0.name, data1.name ],
